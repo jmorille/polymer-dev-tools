@@ -1,0 +1,50 @@
+## file name transformation
+## file-name => FileName
+## Sources:
+## http://stackoverflow.com/questions/6998412/velocity-string-function
+## http://stackoverflow.com/questions/21288687/using-velocity-split-to-split-a-string-into-an-array-doesnt-seem-to-work
+## http://velocity.apache.org/engine/releases/velocity-1.7/apidocs/org/apache/velocity/util/StringUtils.html#split(java.lang.String, java.lang.String)
+
+#set( $CamelCaseName = "" )
+#set( $part = "" )
+#foreach($part in $NAME.split("-"))
+    #set( $CamelCaseName = "${CamelCaseName}$part.substring(0,1).toUpperCase()$part.substring(1).toLowerCase()" )
+#end
+
+
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="${NAME}">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `${NAME}`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class ${CamelCaseName} extends Polymer.Element {
+      static get is() { return '${NAME}'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: '${NAME}'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(${CamelCaseName}.is, ${CamelCaseName});
+  </script>
+</dom-module>
